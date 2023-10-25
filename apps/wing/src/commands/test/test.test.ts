@@ -3,7 +3,7 @@ import fs from "fs";
 import { mkdtemp } from "fs/promises";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
-import { Target } from "@winglang/compiler";
+import { BuiltinPlatform } from "@winglang/compiler";
 import { TestResult, TraceType } from "@winglang/sdk/lib/std";
 import chalk from "chalk";
 import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
@@ -61,7 +61,7 @@ describe("test options", () => {
       fs.writeFileSync("bar.test.w", "bring cloud;");
       fs.writeFileSync("baz.test.w", "bring cloud;");
 
-      await wingTest([], { clean: true, target: Target.SIM });
+      await wingTest([], { clean: true, platform: [BuiltinPlatform.SIM] });
 
       expect(logSpy).toHaveBeenCalledWith("pass ─ foo.test.wsim (no tests)");
       expect(logSpy).toHaveBeenCalledWith("pass ─ bar.test.wsim (no tests)");
@@ -86,7 +86,7 @@ describe("test options", () => {
 
       await wingTest(["test.test.w"], {
         clean: true,
-        target: Target.SIM,
+        platform: [BuiltinPlatform.SIM],
         outputFile,
       });
 
@@ -117,7 +117,7 @@ describe("test options", () => {
 
       await wingTest(["test.test.w"], {
         clean: true,
-        target: Target.SIM,
+        platform: [BuiltinPlatform.SIM],
       });
       expect(writeResults).toBeCalledTimes(0);
       writeResults.mockClear();
